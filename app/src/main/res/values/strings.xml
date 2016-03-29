@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Save VK Music</string>
+    <string name="vk_login_text">Войти ВК</string>
+    <string name="vk_logout_text">Выйти из ВК</string>
+    <string name="text_you_denied_auth">Вы запретили авторизацию приложению</string>
+    <string name="text_success_auth">Вы успешно авторизовались</string>
+    <string name="vk_reload_text">Обновить</string>
+    <integer name="com_vk_sdk_AppId">5385028</integer>
+</resources>
