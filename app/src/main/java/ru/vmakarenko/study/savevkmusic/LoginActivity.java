@@ -1,6 +1,5 @@
 package ru.vmakarenko.study.savevkmusic;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,26 +21,23 @@ import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKApiAudio;
 import com.vk.sdk.api.model.VKApiUser;
 
 import org.json.JSONException;
 
 import java.io.InputStream;
 
-import ru.vmakarenko.study.savevkmusic.fragment.SimpleListFragment;
+import ru.vmakarenko.study.savevkmusic.fragment.AudioListFragment;
+import ru.vmakarenko.study.savevkmusic.list.AudioItem;
 
 public class LoginActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // add list fragment
-        SimpleListFragment fragment = new SimpleListFragment();
-        getFragmentManager().beginTransaction().
-                add(R)fragmentTransaction.add(R.id.list_fragment, fragment);
-        fragmentTransaction.add(R.id.detail_fragment, fragment2);
-        fragmentTransaction.commit();
     }
 
     public void onClickLoginVk(View view) {
@@ -58,6 +54,13 @@ public class LoginActivity extends AppCompatActivity {
                     user = new VKApiUser().parse(response.json.optJSONArray("response").getJSONObject(0));
                     new DownloadImageTask((ImageView) findViewById(R.id.vk_user_pic_mini))
                             .execute(user.photo_50);
+                    AudioListFragment fragment = new AudioListFragment();
+                    AudioItem audio = new AudioItem();
+                    audio.setAuthor("hello");
+                    audio.setTitle("world");
+                    fragment.getAudioList().add(audio);
+                    getFragmentManager().beginTransaction().
+                            replace(R.id.audio_list_fragment, fragment).commit();
                 } catch (JSONException e) {
                     Log.e(this.getClass().getName(), "Problem with parsing current user");
                     e.printStackTrace();

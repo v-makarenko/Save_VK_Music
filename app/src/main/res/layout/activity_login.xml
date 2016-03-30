@@ -43,5 +43,8 @@
             />
 
     </LinearLayout>
-    <Fra
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/audio_list_fragment"></FrameLayout>
 </LinearLayout>
