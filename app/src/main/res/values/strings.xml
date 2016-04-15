@@ -1,9 +1,42 @@
 <resources>
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>Мои аудиозаписи</item>
+        <item>Аудио друзей</item>
+        <item>Чужие аудиозаписи</item>
+        <item>Настройки</item>
+    </string-array>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_my_audio</item>
+        <item>@drawable/ic_friends_audio</item>
+        <item>@drawable/ic_outer_audio</item>
+        <item>@drawable/ic_settings</item>
+    </array>
+
+
     <string name="app_name">Save VK Music</string>
     <string name="vk_login_text">Войти ВК</string>
     <string name="vk_logout_text">Выйти из ВК</string>
     <string name="text_you_denied_auth">Вы запретили авторизацию приложению</string>
     <string name="text_success_auth">Вы успешно авторизовались</string>
     <string name="vk_reload_text">Обновить</string>
+    <string name="desc_list_item_icon">Меню</string>
+
+    <string name="my_audio">Мои аудиозаписи</string>
+    <string name="frieds_audio">Аудио друзей</string>
+    <string name="external_audio">Поиск аудиозаписей</string>
+    <string name="user_or_group_id_or_login">ID или логин человека/группы</string>
+    <string name="about">О приложении</string>
+    <string name="download_all">Скачать все</string>
+    <string name="ready_msg">Готово %1$d/%2$d</string>
+    <string name="illegal_folder_name_for_music">Неверное имя папки для сохранения музыки</string>
+    <string name="search_title">Поиск</string>
+    <string name="close">Закрыть</string>
+    <string name="find_by_group_id">Искать по ID группы</string>
+    <string name="find_by_user_id">Искать по ID пользователя</string>
+    <string name="find_by_title">Искать по названию</string>
+    <string name="find_by_author">Искать по исполнителю</string>
+
     <integer name="com_vk_sdk_AppId">5385028</integer>
 </resources>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow android:id="@+id/find_by_group_row">
+
+            <RadioButton android:id="@+id/rb_find_by_group_id" />
+
+            <TextView android:text="@string/find_by_group_id" />
+
+            <EditText
+                android:id="@+id/et_find_by_group_id"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow  android:id="@+id/find_by_user_row">
+
+            <RadioButton android:id="@+id/rb_find_by_user_id" />
+
+            <TextView android:text="@string/find_by_user_id" />
+
+            <EditText
+                android:id="@+id/et_find_by_user_id"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow  android:id="@+id/find_by_author_row">>
+
+            <RadioButton android:id="@+id/rb_find_by_author" />
+
+            <TextView android:text="@string/find_by_author" />
+
+            <EditText
+                android:id="@+id/et_find_by_author"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow android:id="@+id/find_by_title_row">>
+
+            <RadioButton android:id="@+id/rb_find_by_title" />
+
+            <TextView android:text="@string/find_by_title" />
+
+            <EditText
+                android:id="@+id/et_find_by_title"
+                android:layout_weight="1" />
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Искать" />
+
+
+    <!-- Framelayout to display Fragments -->
+    <FrameLayout
+        android:id="@+id/audio_outer_nested_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:layout_weight="1">
+
+    </FrameLayout>
+
+
+</LinearLayout>

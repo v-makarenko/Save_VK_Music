@@ -1,4 +1,4 @@
-package ru.vmakarenko.study.savevkmusic.list.adapter;
+package ru.vmakarenko.study.savevkmusic.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ru.vmakarenko.study.savevkmusic.R;
-import ru.vmakarenko.study.savevkmusic.list.AudioItem;
+import ru.vmakarenko.study.savevkmusic.model.AudioItem;
 
 public class AudioListAdapter<T> extends ArrayAdapter<AudioItem> {
 
@@ -43,7 +43,7 @@ public class AudioListAdapter<T> extends ArrayAdapter<AudioItem> {
         }
 
         AudioItem item = getItem(position);
-        ((TextView) view.findViewById(R.id.song_author)).setText(item.getAuthor());
+        ((TextView) view.findViewById(R.id.song_author)).setText(item.getArtist());
         ((TextView) view.findViewById(R.id.song_title)).setText(item.getTitle());
 
         return view;

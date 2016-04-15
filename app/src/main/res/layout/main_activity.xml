@@ -1,0 +1,42 @@
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Framelayout to display Fragments -->
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    </FrameLayout>
+
+    <!-- Listview to display slider menu -->
+    <ListView
+        android:id="@+id/list_slidermenu"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@color/list_divider"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/list_selector"
+        android:background="@color/list_background"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:visibility="gone" android:id="@+id/progressLayout">
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:progress="50"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/progressText"/>
+    </LinearLayout>
+</android.support.v4.widget.DrawerLayout>

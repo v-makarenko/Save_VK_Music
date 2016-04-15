@@ -21,7 +21,6 @@ import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
-import com.vk.sdk.api.model.VKApiAudio;
 import com.vk.sdk.api.model.VKApiUser;
 
 import org.json.JSONException;
@@ -29,7 +28,7 @@ import org.json.JSONException;
 import java.io.InputStream;
 
 import ru.vmakarenko.study.savevkmusic.fragment.AudioListFragment;
-import ru.vmakarenko.study.savevkmusic.list.AudioItem;
+import ru.vmakarenko.study.savevkmusic.model.AudioItem;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         VKSdk.login(this, "audio");
     }
 
-    private void reload(){
+    private void reload() {
         VKApi.users().get(VKParameters.from(VKApiConst.FIELDS, VKApiUser.FIELD_PHOTO_50)).executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {
@@ -54,13 +53,25 @@ public class LoginActivity extends AppCompatActivity {
                     user = new VKApiUser().parse(response.json.optJSONArray("response").getJSONObject(0));
                     new DownloadImageTask((ImageView) findViewById(R.id.vk_user_pic_mini))
                             .execute(user.photo_50);
-                    AudioListFragment fragment = new AudioListFragment();
-                    AudioItem audio = new AudioItem();
-                    audio.setAuthor("hello");
-                    audio.setTitle("world");
-                    fragment.getAudioList().add(audio);
-                    getFragmentManager().beginTransaction().
-                            replace(R.id.audio_list_fragment, fragment).commit();
+                    VKApi.audio().get(VKParameters.from(VKApiConst.USER_ID, user.getId()))
+                            .executeWithListener(new VKRequest.VKRequestListener() {
+                                @Override
+                                public void onComplete(VKResponse response) {
+//                                    JSONObject object = response.json.getJSONObject("response");
+//                                    JSONArray items = object.getJSONArray("items");
+//                                    for (int i = 0; i < object.getInt(VKApiConst.COUNT); i++) {
+//                                        AudioItem.from(new VKApiAudio().parse(items.getJSONObject(i)));
+//                                    }
+                                    AudioListFragment fragment = new AudioListFragment();
+                                    AudioItem audio = new AudioItem();
+                                    audio.setArtist("hello");
+                                    audio.setTitle("world");
+                                    fragment.getAudioList().add(audio);
+                                    getFragmentManager().beginTransaction().
+                                            replace(R.id.audio_list_fragment, fragment).commit();
+                                }
+                            });
+
                 } catch (JSONException e) {
                     Log.e(this.getClass().getName(), "Problem with parsing current user");
                     e.printStackTrace();
@@ -90,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
