@@ -14,14 +14,13 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
-import com.vk.sdk.api.methods.VKApiAudio;
+import com.vk.sdk.api.model.VKApiAudio;
 import com.vk.sdk.api.model.VKApiUser;
 
 import org.json.JSONException;
@@ -33,7 +32,6 @@ import java.util.List;
 
 import ru.vmakarenko.study.savevkmusic.MainActivity;
 import ru.vmakarenko.study.savevkmusic.R;
-import ru.vmakarenko.study.savevkmusic.VKApplication;
 import ru.vmakarenko.study.savevkmusic.interfaces.TagFragment;
 import ru.vmakarenko.study.savevkmusic.model.AudioItem;
 import ru.vmakarenko.study.savevkmusic.adapter.AudioListAdapter;
@@ -56,13 +54,15 @@ public class AudioListFragment extends ListFragment implements TagFragment {
     private VKApiUser currentUser = null;
 
 
-    private String userId = null;
+    private String id = null;
+    private String searchString;
 
     private TextView progressTextView = null;
     private LinearLayout progressLayout = null;
 
     private int currentProgress = 0;
     private int total = 0;
+    ListType type = ListType.USER;
 
     public List<AudioItem> getAudioList() {
         return audioList;
@@ -80,8 +80,8 @@ public class AudioListFragment extends ListFragment implements TagFragment {
         ((MainActivity) getActivity()).setFragmentMode(MainActivity.FragmentsAvailable.AUDIO);
 
         VKRequest req = VKApi.users().get();
-        if (userId != null) {
-            req.addExtraParameter(VKApiConst.USER_ID, userId);
+        if (id != null) {
+            req.addExtraParameter(VKApiConst.USER_ID, id);
         }
 
         req.executeWithListener(new VKRequest.VKRequestListener() {
@@ -94,6 +94,7 @@ public class AudioListFragment extends ListFragment implements TagFragment {
                 }
             }
         });
+        updateList();
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -102,10 +103,28 @@ public class AudioListFragment extends ListFragment implements TagFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VKApiAudio audio = VKApi.audio();
-        VKRequest req = audio.get();
-        if (userId != null) {
-            req.addExtraParameters(VKParameters.from(VKApiConst.OWNER_ID, userId));
+
+    }
+
+    public void updateList() {
+        VKRequest req = null;
+        if(type == ListType.GROUP || type==ListType.USER) {
+            req = VKApi.audio().get();
+            if (id != null) {
+                int localId = Integer.parseInt(id);
+                if (type == ListType.GROUP) {
+                    localId = -localId;
+                }
+                req.addExtraParameters(VKParameters.from(VKApiConst.OWNER_ID, localId));
+            }
+        }else{
+            req = VKApi.audio().search(VKParameters.from(VKApiConst.Q, searchString));
+            if (type == ListType.AUTHOR){
+                req.addExtraParameter("performer_only", "1");
+            }
+            if (type == ListType.TITLE){
+                req.addExtraParameter("performer_only", "0");
+            }
         }
         req.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
@@ -129,13 +148,40 @@ public class AudioListFragment extends ListFragment implements TagFragment {
             @Override
             public void onError(VKError error) {
                 Log.e(this.getClass().getName(),
-                        error.errorMessage + " " + error.errorReason);
+                        error.errorCode + " " + error.errorMessage + " " + error.errorReason);
+                if (error.apiError != null && error.apiError.errorCode == 201) {
+                    Toast.makeText(getActivity(), R.string.audio_for_user_is_not_available,
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    public AudioListFragment setUserId(String userId) {
-        this.userId = userId;
+    public AudioListFragment setUserId(String id) {
+        this.id = id;
+        type = ListType.USER;
+        updateList();
+        return this;
+    }
+
+    public AudioListFragment setGroupId(String userId) {
+        this.id = userId;
+        type = ListType.GROUP;
+        updateList();
+        return this;
+    }
+
+    public AudioListFragment setTitleSearchString(String searchString){
+        this.searchString = searchString;
+        type = ListType.TITLE;
+        updateList();
+        return this;
+    }
+
+    public AudioListFragment setAuthorSearchString(String searchString){
+        this.searchString = searchString;
+        type = ListType.AUTHOR;
+        updateList();
         return this;
     }
 
@@ -201,8 +247,13 @@ public class AudioListFragment extends ListFragment implements TagFragment {
         }
     }
 
+
     public void incCurrentProgress() {
         this.currentProgress++;
         refreshProgressLayout();
+    }
+
+    enum ListType {
+        GROUP, USER, AUTHOR, TITLE
     }
 }

@@ -19,7 +19,6 @@ import ru.vmakarenko.study.savevkmusic.fragment.AboutAppFragment;
 import ru.vmakarenko.study.savevkmusic.fragment.AudioListFragment;
 import ru.vmakarenko.study.savevkmusic.fragment.FriendsListFragment;
 import ru.vmakarenko.study.savevkmusic.fragment.nested.FindAudioOuterFragment;
-import ru.vmakarenko.study.savevkmusic.interfaces.TagFragment;
 import ru.vmakarenko.study.savevkmusic.model.ObjectDrawerItem;
 
 public class MainActivity extends AppCompatActivity {

@@ -37,6 +37,7 @@
     <string name="find_by_user_id">Искать по ID пользователя</string>
     <string name="find_by_title">Искать по названию</string>
     <string name="find_by_author">Искать по исполнителю</string>
+    <string name="audio_for_user_is_not_available">Аудиозаписи пользователя недоступны</string>
 
     <integer name="com_vk_sdk_AppId">5385028</integer>
 </resources>
